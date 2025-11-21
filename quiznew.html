@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield - Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="indexnew.html" class="logo">CyberShield</a>
+                <!-- <ul class="nav-links">
+                    <li><a href="indexnew.html">Home</a></li>
+                    <li class="dropdown">
+                        <span class="dropdown-toggle">Resources</span>
+                        <div class="dropdown-menu">
+                            <a href="articlesnew.html">Awareness Articles</a>
+                            <a href="safetynew.html">Safety Tips</a>
+                            <a href="quiznew.html">Interactive Quiz</a>
+                        </div>
+                    </li>
+                    <li><a href="reportnew.html">Report</a></li>
+                    <li><a href="indexnew.html#contact">Contact</a></li>
+                </ul> -->
+                <div class="auth-buttons" id="authButtons">
+                    <a href="loginnew.html" class="btn btn-outline">Login</a>
+                    <a href="loginnew.html?signup=true" class="btn btn-gradient">Sign Up</a>
+                </div>
+                <div class="user-profile" id="userProfile">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span id="userName">User</span>
+                    <button class="btn btn-outline" style="padding: 5px 15px; margin-left: 10px;" onclick="logout()">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" style="padding: 60px 0;">
+            <div class="container">
+                <div id="quizContainer"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="datanew.js"></script>
+    <script src="scriptnew.js"></script>
+    <script>
+        // Check if user is logged in
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser) {
+            alert('Please login to access quizzes');
+            window.location.href = 'loginnew.html';
+        }
+
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let quizScore = 0;
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            quizScore = 0;
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('quizContainer');
+            const question = quizQuestions[currentQuestionIndex];
+
+            if (!question) {
+                showQuizResults();
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <h3>Cyber Awareness Quiz</h3>
+                        <span style="color: var(--text-secondary);">Question ${currentQuestionIndex + 1} of ${quizQuestions.length}</span>
+                    </div>
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar" style="width: ${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%;"></div>
+                    </div>
+                    <h4 class="quiz-question">${question.question}</h4>
+                    <div class="quiz-options">
+                        ${question.options.map((option, index) => `
+                            <button onclick="selectAnswer(${index})" class="quiz-option">${option}</button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectAnswer(answerIndex) {
+            const question = quizQuestions[currentQuestionIndex];
+            userAnswers.push(answerIndex);
+            
+            if (answerIndex === question.correct) {
+                quizScore++;
+            }
+
+            currentQuestionIndex++;
+            setTimeout(() => displayQuestion(), 200);
+        }
+
+        function showQuizResults() {
+            const container = document.getElementById('quizContainer');
+            const percentage = (quizScore / quizQuestions.length) * 100;
+            let message = percentage >= 80 ? 'Excellent! You have great cyber awareness!' : percentage >= 60 ? 'Good job! Keep learning to improve further.' : 'Keep studying! Review the articles and try again.';
+            let color = percentage >= 80 ? 'var(--primary-cyan)' : 'var(--primary-purple)';
+
+            container.innerHTML = `
+                <div class="quiz-container quiz-results">
+                    <h2 style="font-size: 36px; margin-bottom: 30px;">Quiz Complete!</h2>
+                    <div class="quiz-score-circle">
+                        <div class="quiz-score-text" style="color: ${color};">${Math.round(percentage)}%</div>
+                    </div>
+                    <p style="font-size: 24px; margin-bottom: 20px;">You scored ${quizScore} out of ${quizQuestions.length}</p>
+                    <p style="font-size: 18px; color: var(--text-secondary); margin-bottom: 40px;">${message}</p>
+                    <div class="quiz-actions">
+                        <button onclick="startQuiz()" class="btn btn-gradient">Retake Quiz</button>
+                        <button onclick="showDetailedAnswers()" class="btn btn-outline">View Detailed Answers</button>
+                        <button onclick="downloadResults()" class="btn btn-outline">Download Results</button>
+                        <a href="indexnew.html" class="btn btn-outline">Back to Home</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showDetailedAnswers() {
+            const container = document.getElementById('quizContainer');
+            
+            // Explanations for each question
+            const explanations = [
+                "Phishing is a cybercrime where attackers pose as legitimate institutions to lure individuals into providing sensitive data. Always verify the sender and never click suspicious links.",
+                "Strong passwords should be at least 12 characters long, combining uppercase, lowercase, numbers, and special symbols. This complexity makes them extremely difficult to crack.",
+                "Two-Factor Authentication (2FA) adds an extra security layer beyond just a password. It typically requires something you know (password) and something you have (phone/token).",
+                "If you receive a suspicious email, never click links or reply. Delete it immediately and report it to your IT department or email provider as phishing.",
+                "WPA3 is the latest and most secure Wi-Fi encryption standard. It provides stronger security than WPA2, WPA, or the outdated WEP protocol.",
+                "Social engineering manipulates people psychologically to divulge confidential information or perform actions. It exploits human trust rather than technical vulnerabilities.",
+                "Public Wi-Fi networks are insecure and can be monitored by attackers. Never access banking or sensitive accounts without using a VPN for encryption.",
+                "Ransomware is malicious software that encrypts your files and demands payment for decryption. Regular backups and updated security software help protect against it.",
+                "Passwords should be updated every 3-6 months as a best practice, and immediately if you suspect a breach or if the service notifies you of a security incident.",
+                "HTTPS (HyperText Transfer Protocol Secure) indicates that the connection between your browser and the website is encrypted, protecting your data from interception."
+            ];
+            
+            const answersHTML = quizQuestions.map((q, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === q.correct;
+                const statusColor = isCorrect ? 'var(--primary-cyan)' : '#ff5555';
+                const statusIcon = isCorrect ? '✓' : '✗';
+                const statusText = isCorrect ? 'Correct' : 'Incorrect';
+                
+                return `
+                    <div style="background: var(--dark-bg); padding: 25px; border-radius: 12px; margin-bottom: 20px; border: 2px solid ${isCorrect ? 'rgba(0, 188, 212, 0.3)' : 'rgba(255, 85, 85, 0.3)'};">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h4 style="color: var(--text-primary); font-size: 18px; margin: 0;">Question ${index + 1}</h4>
+                            <span style="color: ${statusColor}; font-weight: bold; font-size: 16px;">
+                                ${statusIcon} ${statusText}
+                            </span>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 16px; margin-bottom: 15px; line-height: 1.6;">${q.question}</p>
+                        
+                        <div style="margin: 15px 0;">
+                            <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;"><strong>Your Answer:</strong></p>
+                            <div style="padding: 12px; background: ${isCorrect ? 'rgba(0, 188, 212, 0.1)' : 'rgba(255, 85, 85, 0.1)'}; border-radius: 8px; border-left: 3px solid ${statusColor};">
+                                <p style="margin: 0; color: var(--text-primary);">${q.options[userAnswer]}</p>
+                            </div>
+                        </div>
+                        
+                        ${!isCorrect ? `
+                            <div style="margin: 15px 0;">
+                                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;"><strong>Correct Answer:</strong></p>
+                                <div style="padding: 12px; background: rgba(0, 188, 212, 0.1); border-radius: 8px; border-left: 3px solid var(--primary-cyan);">
+                                    <p style="margin: 0; color: var(--text-primary);">${q.options[q.correct]}</p>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: rgba(0, 188, 212, 0.05); border-radius: 8px;">
+                            <p style="color: var(--primary-cyan); font-size: 14px; font-weight: bold; margin-bottom: 8px;">💡 Explanation:</p>
+                            <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin: 0;">${explanations[index]}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = `
+                <div class="quiz-container">
+                    <div style="text-align: center; margin-bottom: 40px;">
+                        <h2 style="font-size: 32px; margin-bottom: 15px;">Detailed Quiz Review</h2>
+                        <p style="color: var(--text-secondary); font-size: 16px;">Review your answers and learn from the explanations below</p>
+                    </div>
+                    
+                    <div style="max-height: 600px; overflow-y: auto; padding-right: 10px;">
+                        ${answersHTML}
+                    </div>
+                    
+                    <div class="quiz-actions" style="margin-top: 30px;">
+                        <button onclick="showQuizResults()" class="btn btn-outline">Back to Results</button>
+                        <button onclick="startQuiz()" class="btn btn-gradient">Retake Quiz</button>
+                        <a href="index.html" class="btn btn-outline">Back to Home</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function downloadResults() {
+            const percentage = (quizScore / quizQuestions.length) * 100;
+            const resultsText = `CyberShield Quiz Results\n========================\nName: ${currentUser.name}\nEmail: ${currentUser.email}\nScore: ${quizScore}/${quizQuestions.length} (${Math.round(percentage)}%)\n\nQuestions & Answers:\n${quizQuestions.map((q, i) => `\n${i + 1}. ${q.question}\n   Your answer: ${q.options[userAnswers[i]]}\n   ${userAnswers[i] === q.correct ? '✓ Correct' : '✗ Incorrect - Correct: ' + q.options[q.correct]}`).join('\n')}\n\nThank you for completing the CyberShield Quiz!`;
+            const blob = new Blob([resultsText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'CyberShield_Results.txt';
+            a.click();
+        }
+
+        // Start quiz
+        startQuiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield - Articles</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="indexnew.html" class="logo">CyberShield</a>
+                <ul class="nav-links">
+                    <li><a href="indexnew.html">Home</a></li>
+                    <li class="dropdown">
+                        <span class="dropdown-toggle">Resources</span>
+                        <div class="dropdown-menu">
+                            <a href="articlesnew.html">Awareness Articles</a>
+                            <a href="safety-tipsnew.html">Safety Tips</a>
+                            <a href="quiznew.html">Interactive Quiz</a>
+                        </div>
+                    </li>
+                    <li><a href="reportnew.html">Report</a></li>
+                    <li><a href="indexnew.html#contact">Contact</a></li>
+                </ul>
+                <div class="auth-buttons" id="authButtons">
+                    <a href="loginnew.html" class="btn btn-outline">Login</a>
+                    <a href="loginnew.html?signup=true" class="btn btn-gradient">Sign Up</a>
+                </div>
+                <div class="user-profile" id="userProfile">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span id="userName">User</span>
+                    <button class="btn btn-outline" style="padding: 5px 15px; margin-left: 10px;" onclick="logout()">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" style="padding: 60px 0;">
+            <div class="container">
+                <h2 class="page-title">Cyber Awareness Articles</h2>
+                <div id="articlesContainer" class="articles-grid"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="datanew.js"></script>
+    <script src="scriptnew.js"></script>
+    <script>
+        // Load articles
+        const container = document.getElementById('articlesContainer');
+        container.innerHTML = articles.map(article => `
+            <div class="feature-card article-card" onclick="viewArticle(${article.id})">
+                <h3>${article.title}</h3>
+                <p style="margin: 15px 0; color: var(--text-secondary);">${article.excerpt}</p>
+                <div class="article-meta">
+                    <div>
+                        <div class="article-author">${article.author}</div>
+                        <div class="article-role">${article.role}</div>
+                    </div>
+                    <div class="article-date">${article.date}</div>
+                </div>
+            </div>
+        `).join('');
+
+        function viewArticle(id) {
+            const article = articles.find(a => a.id === id);
+            if (!article) return;
+
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;';
+            modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+
+            modal.innerHTML = `
+                <div style="background: var(--card-bg); border-radius: 20px; padding: 50px; max-width: 800px; width: 100%; border: 1px solid rgba(0, 188, 212, 0.2); position: relative;">
+                    <button onclick="this.closest('div').parentElement.remove()" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: white; font-size: 30px; cursor: pointer; width: 40px; height: 40px;">&times;</button>
+                    <h2 style="font-size: 32px; margin-bottom: 20px; color: var(--primary-cyan);">${article.title}</h2>
+                    <div style="display: flex; gap: 20px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(0, 188, 212, 0.1);">
+                        <div>
+                            <div style="font-weight: 500;">${article.author}</div>
+                            <div style="font-size: 14px; color: var(--text-secondary);">${article.role}</div>
+                        </div>
+                        <div style="margin-left: auto; color: var(--text-secondary);">${article.date}</div>
+                    </div>
+                    <p style="line-height: 1.8; color: var(--text-secondary); font-size: 16px;">${article.content}</p>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+    </script>
+</body>
+</html>

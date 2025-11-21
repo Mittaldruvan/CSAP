@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield - Report</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="indexnew.html" class="logo">CyberShield</a>
+                <ul class="nav-links">
+                    <li><a href="indexnew.html">Home</a></li>
+                    <li class="dropdown">
+                        <span class="dropdown-toggle">Resources</span>
+                        <div class="dropdown-menu">
+                            <a href="articlesnew.html">Awareness Articles</a>
+                            <a href="safety-tipsnew.html">Safety Tips</a>
+                            <a href="quiznew.html">Interactive Quiz</a>
+                        </div>
+                    </li>
+                    <li><a href="reportnew.html">Report</a></li>
+                    <li><a href="indexnew.html#contact">Contact</a></li>
+                </ul>
+                <div class="auth-buttons" id="authButtons">
+                    <a href="loginnew.html" class="btn btn-outline">Login</a>
+                    <a href="loginnew.html?signup=true" class="btn btn-gradient">Sign Up</a>
+                </div>
+                <div class="user-profile" id="userProfile">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span id="userName">User</span>
+                    <button class="btn btn-outline" style="padding: 5px 15px; margin-left: 10px;" onclick="logout()">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" style="padding: 60px 0;">
+            <div class="container">
+                <div class="report-form-container">
+                    <h2>Report Cyber Incident</h2>
+                    <form id="reportForm">
+                        <div class="form-group">
+                            <label>Incident Type</label>
+                            <select id="incidentType" required>
+                                <option value="">Select type...</option>
+                                <option value="phishing">Phishing Email</option>
+                                <option value="malware">Malware/Virus</option>
+                                <option value="data-breach">Data Breach</option>
+                                <option value="suspicious">Suspicious Activity</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="incidentDescription" required rows="6" placeholder="Describe what happened..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Screenshot (Optional)</label>
+                            <input type="file" id="incidentFile" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-gradient btn-full">Submit Report</button>
+                    </form>
+                    <div id="reportSuccess" class="hidden success-message">
+                        Report submitted successfully! Thank you for contributing to community awareness.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="datanew.js"></script>
+    <script src="scriptnew.js"></script>
+    <script>
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('reportSuccess').classList.remove('hidden');
+            this.reset();
+            setTimeout(() => {
+                document.getElementById('reportSuccess').classList.add('hidden');
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

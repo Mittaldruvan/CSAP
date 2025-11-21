@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield - Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="indexnew.html" class="logo">CyberShield</a>
+                <ul class="nav-links">
+                    <li><a href="indexnew.html">Home</a></li>
+                    <!-- <li class="dropdown">
+                        <span class="dropdown-toggle">Resources</span>
+                        <div class="dropdown-menu">
+                            <a href="articlesnew.html">Awareness Articles</a>
+                            <a href="safetynew.html">Safety Tips</a>
+                            <a href="quiznew.html">Interactive Quiz</a>
+                        </div>
+                    </li> -->
+                    <li><a href="reportnew.html">Report</a></li>
+                    <li><a href="indexnew.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="auth-form-container">
+                    <h2>Welcome Back</h2>
+                    
+                    <!-- Google Login Button -->
+                    <div style="margin-bottom: 30px;">
+                        <button onclick="handleGoogleLogin()" class="btn btn-gradient" style="width: 100%; padding: 15px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <span style="font-size: 20px;">🔐</span> Continue with Google
+                        </button>
+                        <div style="text-align: center; margin: 20px 0; color: var(--text-secondary); position: relative;">
+                            <span style="background: var(--card-bg); padding: 0 15px; position: relative; z-index: 1;">or</span>
+                            <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(0, 188, 212, 0.2); z-index: 0;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="loginEmail" placeholder="Enter any email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="loginPassword" placeholder="Enter any password" required>
+                        </div>
+                        <button type="submit" class="btn btn-gradient btn-full">Login</button>
+                    </form>
+
+                    <p class="auth-link">
+                        Don't have an account? <a href="signupnew.html">Sign Up</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="datanew.js"></script>
+    <script src="scriptnew.js"></script>
+    <script>
+        // Handle Login - Auto-login without credential checking
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Auto-login without credential checking (for demo/testing purposes)
+            // Extract name from email (before @)
+            const name = email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
+            
+            const user = { 
+                name: name, 
+                email: email, 
+                role: 'user' 
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            alert('Login successful! Welcome, ' + name);
+            window.location.href = 'indexnew.html';
+        });
+
+        // Google Login Simulation - Instant login
+        function handleGoogleLogin() {
+            const googleUser = {
+                name: 'Demo User',
+                email: 'demo@cybershield.com',
+                role: 'user'
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(googleUser));
+            alert('Logged in with Google! Welcome, ' + googleUser.name);
+            window.location.href = 'indexnew.html';
+        }
+
+        // Check if signup parameter exists
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('signup') === 'true') {
+            window.location.href = 'loginnew.html';
+        }
+    </script>
+</body>
+</html>
