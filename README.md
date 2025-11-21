@@ -34,26 +34,24 @@ This is a web-based Cyber Security Awareness Platform developed in **HTML**, **C
 
 ## 🗂️ Project Structure
 cybershield/
-├── index.html # Landing page
-├── login.html # Login/signup page
-├── articles.html # Awareness articles
-├── safety-tips.html # Security tips
-├── quiz.html # Interactive quiz
-├── report.html # Incident report page
-├── styles.css # Shared styling
-├── script.js # Shared JS (login, quiz, UI)
-├── data.js # Articles + quiz questions
-└── README.md # Project documentation
+- index.html # Landing page
+─ login.html # Login/signup page
+─ articles.html # Awareness articles
+─ safety-tips.html # Security tips
+─ quiz.html # Interactive quiz
+─ report.html # Incident report page
+─ styles.css # Shared styling
+─ script.js # Shared JS (login, quiz, UI)
+─ data.js # Articles + quiz questions
+─ README.md # Project documentation
 
 ---
 
 ## 🚀 Getting Started
 
 1. **Clone the repository**
-git clone https://github.com/Mittaldruvan/CSAP.git
-cd CSAP
-
-
+ - git clone https://github.com/Mittaldruvan/CSAP.git
+ - cd CSAP
 2. **Run in browser**
  - Open `index.html` in Chrome, Edge, or Safari (no server required)
  - Use site navigation to access quiz, articles, report, and tips pages
@@ -73,7 +71,6 @@ cd CSAP
 ## 👨‍💻 Authors & Team
 
 - Druvan Mittal (2025)
-- [Add collaborators here]
 
 ---
 
