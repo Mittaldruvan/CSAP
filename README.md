@@ -33,7 +33,7 @@ This is a web-based Cyber Security Awareness Platform developed in **HTML**, **C
 ---
 
 ## 🗂️ Project Structure
-cybershield/
+cybershield
 - index.html # Landing page
 ─ login.html # Login/signup page
 ─ articles.html # Awareness articles
